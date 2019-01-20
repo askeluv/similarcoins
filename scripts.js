@@ -64,7 +64,9 @@ request.onload = function () {
 
 
       const score = document.createElement('td');
-      score.textContent = coin.score;
+      const scoreText = document.createElement('h4');
+      scoreText.textContent = 100 * coin.score;
+      scoreText.textContent = scoreText.textContent + "%";
 
       const buyButton = document.createElement('button');
       zrxCall = "renderZeroExInstant('" + coin.address + "');"
@@ -77,6 +79,7 @@ request.onload = function () {
       row.appendChild(icon);
       row.appendChild(name);
       row.appendChild(score);
+      score.appendChild(scoreText);
       row.appendChild(buyButton);
 
     });

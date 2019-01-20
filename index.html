@@ -10,13 +10,13 @@
   
   <link href="https://fonts.googleapis.com/css?family=Dosis:400,700" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">  
-
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 	<header>
-	<nav class="navbar navbar-dark">
+	<nav class="navbar navbar-dark mb-4">
 		<img src="logo.png" alt="SimilarCoins" height="32px">
 		<div id="wallet_address">
 			<p>0x1231231231231</p>
@@ -27,12 +27,15 @@
 	<main role="main" class="flex-shrink-0">
 		<div class="container">
 			<div class="row">
-				<h2>Recommended coins based on your blockchain transactions</h2>
+				<h2>Recommended coins</h2>
 			</div>
-	  	<div class="row">
-	  		<div class="col" id="coins"></div>
-	  		<div class="col" id="placeholder"></div>
-	  	</div>
+			<div class="row mb-4">
+				<p>based on your blockchain transactions</p>
+			</div>
+		  	<div class="row">
+		  		<div class="col" id="coins"></div>
+		  		<div class="col" id="placeholder"></div>
+		  	</div>
 	  	</div>
 	</main>
 
