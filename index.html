@@ -6,42 +6,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://instant.0x.org/instant.js" /></script>
 
-  <title>Similar Coins</title>
+  <title>SimilarCoins</title>
   
   <link href="https://fonts.googleapis.com/css?family=Dosis:400,700" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">  
   <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="favicon.png"> 
+
 </head>
 
 <body>
 
-	<header>
-	<nav class="navbar navbar-dark mb-4">
-		<img src="logo.png" alt="SimilarCoins" height="32px">
-		<div id="walletAddress"></div>
-	</nav>
-	</header>
+	<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+	  <div class="my-0 mr-md-auto font-weight-normal">
+	  	<a href="/" class="href">
+	  		<img src="logo.png" alt="SimilarCoins" height="32px">
+	  	</a>
+	  </div>
+	  <nav class="my-2 my-md-0 mr-md-3">
+	    <a class="p-2 text-dark" href="https://getbootstrap.com/docs/4.2/examples/pricing/#">
+	    	<div id="walletAddress"></div>
+		</a>
+	  </nav>
+	  <a class="btn btn-outline-primary" href="https://getbootstrap.com/docs/4.2/examples/pricing/#">Contact Us</a>
+	</div>
 
 	<main role="main" class="flex-shrink-0">
-		<div class="container">
-			<div class="row">
-				<h2>Recommended coins</h2>
-			</div>
-			<div class="row mb-4">
-				<p>based on your blockchain transactions</p>
-			</div>
-		  	<div class="row">
-		  		<div class="col" id="coins"></div>
-		  		<div class="col" id="placeholder"></div>
-		  	</div>
+		<div class="container" id="appContainer">
+
 	  	</div>
 	</main>
 
-  	<footer class="footer mt-auto py-3">
-  		<div class="container">
-  			<span class="text-muted">Made by SimilarCoins.</span>
-  		</div>
-  	</footer>
+  <footer class="pt-4 my-md-5 pt-md-6 border-top">
+    <div class="row">
+      <div class="col-12 col-md">
+        <img class="mb-2" src="favicon.png" alt="" width="24" height="24">
+        <small class="d-block mb-3 text-muted">Made by D5</small>
+      </div>
+    </div>
+  </footer>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>

@@ -5,6 +5,6 @@ footer {
 	width: 100%;
 }
 
-td {
-	
+.main-header {
+  max-width: 610px;
 }
