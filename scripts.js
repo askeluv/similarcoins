@@ -113,24 +113,24 @@ function buildRecommendationsComponent() {
   request.open('GET', getApiUrl(), true);
   request.onload = function () {
 
-      const row1 = document.createElement('div');
-      row1.classList.add('row');
-      row1.classList.add('mt-5');
-      row1.classList.add('justify-content-center');
+      const rowHeader = document.createElement('div');
+      rowHeader.classList.add('row');
+      rowHeader.classList.add('mt-5');
+      rowHeader.classList.add('justify-content-center');
       const h2 = document.createElement('h2');
       h2.textContent = "Recommended coins";
       h2.classList.add('display-4');
 
-      const row2 = document.createElement('div');
-      row2.classList.add('row');
-      row2.classList.add('justify-content-center');
+      const rowLead = document.createElement('div');
+      rowLead.classList.add('row');
+      rowLead.classList.add('justify-content-center');
       const h2sub = document.createElement('p');
       h2sub.textContent = "for " + a;
       h2sub.classList.add('lead');
 
       const rowCoins = document.createElement('div');
       rowCoins.classList.add('row');
-      rowCoins.classList.add('m-4');
+      rowCoins.classList.add('mt-4');
       rowCoins.classList.add('justify-content-center');
       const coins = document.createElement('div');
       coins.classList.add('col-5');
@@ -140,25 +140,42 @@ function buildRecommendationsComponent() {
       table.classList.add("table");
       table.classList.add("table-borderless");
 
-      const row4 = document.createElement('div');
-      row4.classList.add('row');
-      row4.classList.add('justify-content-center');
+      const rowExplanation = document.createElement('div');
+      rowExplanation.classList.add('row');
+      rowExplanation.classList.add('justify-content-center');
+      const explanation = document.createElement('span');
+      explanation.classList.add("col-6");
+      explanation.classList.add("mb-4");
+      explanation.classList.add("small");
+      explanation.textContent = `These recommendations are not investment advice; 
+      a machine-learning model has been trained to make statistical associations between tokens and wallets.
+      To learn more about how it recommends tokens based on your transaction history, check out `;
+      explanation.classList.add("text-center");
+      const mediumLink = document.createElement('a');
+      mediumLink.textContent = "this article.";
+      mediumLink.href = "https://medium.com/"; // TODO
 
+      const rowBack = document.createElement('div');
+      rowBack.classList.add('row');
+      rowBack.classList.add('justify-content-center');
 
       const back = document.createElement('a');
       back.textContent = "Back";
       back.href = "/";
 
-      app.appendChild(row1);
-      row1.appendChild(h2);
-      row1.appendChild(h2sub);
-      app.appendChild(row2);
-      row2.appendChild(h2sub);
+      app.appendChild(rowHeader);
+      rowHeader.appendChild(h2);
+      rowHeader.appendChild(h2sub);
+      app.appendChild(rowLead);
+      rowLead.appendChild(h2sub);
       app.appendChild(rowCoins);
-      rowCoins.appendChild(coins)
-      coins.appendChild(table)
-      app.appendChild(row4)
-      row4.appendChild(back);
+      rowCoins.appendChild(coins);
+      coins.appendChild(table);
+      app.appendChild(rowExplanation);
+      rowExplanation.appendChild(explanation);
+      explanation.appendChild(mediumLink);
+      app.appendChild(rowBack)
+      rowBack.appendChild(back);
 
 
       // Begin accessing JSON data here
@@ -168,6 +185,8 @@ function buildRecommendationsComponent() {
         data.forEach(coin => {
           const row = document.createElement('tr');
 
+          const iconCell = document.createElement('td');
+          iconCell.classList.add('align-middle');
           const icon = document.createElement('img');
           icon.class = "tokenIcon";
           icon.style.height = '24px';
@@ -175,6 +194,7 @@ function buildRecommendationsComponent() {
           icon.src = getTokenIcon(coin.address);
 
           const name = document.createElement('td');
+          name.classList.add('align-middle');
           name.textContent = coin.name + " (" + coin.symbol + ")";
 
 
@@ -183,19 +203,24 @@ function buildRecommendationsComponent() {
           //scoreText.textContent = coin.rating;
           //scoreText.textContent = scoreText.textContent + "%";
 
+          const buyButtonCell = document.createElement('td');
+          buyButtonCell.classList.add('align-middle');
           const buyButton = document.createElement('button');
           zrxCall = "renderZeroExInstant('" + coin.address + "');"
           buyButton.setAttribute("onClick", zrxCall);
           buyButton.textContent = "Buy";
           buyButton.classList.add('btn');
           buyButton.classList.add('btn-primary');
+          buyButton.classList.add('buy-button');
 
           table.appendChild(row);
-          row.appendChild(icon);
+          row.appendChild(iconCell);
+          iconCell.appendChild(icon);
           row.appendChild(name);
           //row.appendChild(score);
           //score.appendChild(scoreText);
-          row.appendChild(buyButton);
+          row.appendChild(buyButtonCell);
+          buyButtonCell.appendChild(buyButton);
 
         });
       } else {
