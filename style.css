@@ -1,5 +1,5 @@
 footer {
-	position: fixed;
+	position: absolute;
 	bottom: 0;
 	text-align: center;
 	width: 100%;
@@ -7,4 +7,34 @@ footer {
 
 .main-header {
   max-width: 610px;
+}
+
+@media only screen and (max-width: 600px) {
+	h1, h2 {
+		font-size: 1.8em !important;
+	}
+	p.lead {
+		font-size: 0.8em !important;
+	}
+
+	footer {
+		position: relative;
+	}
+
+	.col-2, .col-5 {
+		width: 60% !important;
+		max-width: 60% !important;
+		flex: none;
+	}
+
+	.col-6 {
+		width: 80% !important;
+		max-width: 80% !important;
+		flex: none;
+	}
+}
+
+img#logo, #contact-us {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
