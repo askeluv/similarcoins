@@ -101,12 +101,12 @@ function buildInputWalletComponent() {
     if (window.ethereum) {
           try {
               await window.ethereum.enable();
-              input.value = window.ethereum.selectedAddress;
+              input.value = window.web3.eth.accounts[0];
           } catch (error) {
               
           }
       }
-      else if (window.web3 && window.web3.eth.accounts && window.web3.eth.accounts[0] !== undefined) {
+      else if (window.web3 && window.web3.eth.accounts) {
         input.value = window.web3.eth.accounts[0];
     }
     });
