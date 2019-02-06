@@ -7,14 +7,16 @@ function compare(a,b) {
 }
 
 function loadAddressFromWallet() {
-  if (window.ethereum) {
-        try {
-            window.ethereum.enable();
-            return window.ethereum.selectedAddress;
-        } catch (error) {
-            // User denied account access...
-        }
-    }
+  window.addEventListener('load', async () => {
+    if (window.ethereum) {
+          try {
+              await ethereum.enable();
+              return window.ethereum.selectedAddress;
+          } catch (error) {
+              // User denied account access...
+          }
+      }
+  });
 }
 
 function getTokenIcon(tokenAddress) {
@@ -90,14 +92,24 @@ function buildInputWalletComponent() {
     inputDiv.classList.add('justify-content-center');
 
     const input = document.createElement('input');
+    input.placeholder = "Ethereum address ... ";
     input.classList.add('form-control');
     input.classList.add('col-5');
 
-    var defaultAddress = loadAddressFromWallet();
-    if (defaultAddress === undefined)
-      input.placeholder = "Ethereum address ... ";
-    else
-      input.value = defaultAddress;
+    var defaultAddress = "";
+
+    window.addEventListener('load', async () => {
+
+    if (window.ethereum) {
+          try {
+              await window.ethereum.enable();
+              defaultAddress = window.ethereum.selectedAddress;
+              input.value = defaultAddress;
+          } catch (error) {
+              
+          }
+      }
+    });
     
     const buttonDiv = document.createElement('div');
     buttonDiv.classList.add('row');
