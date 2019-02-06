@@ -96,19 +96,20 @@ function buildInputWalletComponent() {
     input.classList.add('form-control');
     input.classList.add('col-5');
 
-    var defaultAddress = "";
-
     window.addEventListener('load', async () => {
 
     if (window.ethereum) {
           try {
               await window.ethereum.enable();
-              defaultAddress = window.ethereum.selectedAddress;
-              input.value = defaultAddress;
+              input.value = window.ethereum.selectedAddress;
           } catch (error) {
               
           }
       }
+      else if (window.web3) {
+        window.web3 = new Web3(web3.currentProvider);
+        input.value = window.web3.defaultAccount;
+    }
     });
     
     const buttonDiv = document.createElement('div');
