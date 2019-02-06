@@ -106,9 +106,8 @@ function buildInputWalletComponent() {
               
           }
       }
-      else if (window.web3) {
-        window.web3 = new Web3(web3.currentProvider);
-        input.value = window.web3.defaultAccount;
+      else if (window.web3 && window.web3.selectedAddress) {
+        input.value = window.web3.selectedAddress;
     }
     });
     
