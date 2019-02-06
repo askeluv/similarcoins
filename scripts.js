@@ -106,7 +106,7 @@ function buildInputWalletComponent() {
               
           }
       }
-      else if (window.web3 && window.web3.eth.accounts) {
+      else if (window.web3 && window.web3.eth.accounts && window.web3.eth.accounts[0]) {
         input.value = window.web3.eth.accounts[0];
     }
     });
