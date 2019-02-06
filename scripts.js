@@ -6,6 +6,17 @@ function compare(a,b) {
   return 0;
 }
 
+function loadAddressFromWallet() {
+  if (window.ethereum) {
+        try {
+            window.ethereum.enable();
+            return window.ethereum.selectedAddress;
+        } catch (error) {
+            // User denied account access...
+        }
+    }
+}
+
 function getTokenIcon(tokenAddress) {
   return "https://raw.githubusercontent.com/TrustWallet/tokens/master/tokens/" + tokenAddress + ".png";
 }
@@ -31,6 +42,8 @@ function getApiUrl() {
 }
 
 function renderZeroExInstant(tokenAddress) {
+  var feeRecipient = '0x3d0fd32c24799d2ad8143402ea9b7cf86b429fd3';
+  var feePercentage = 0.005;
   zrxAsset = zeroExInstant.assetDataForERC20TokenAddress(tokenAddress);
   zeroExInstant.render(
       {
@@ -38,8 +51,8 @@ function renderZeroExInstant(tokenAddress) {
           availableAssetDatas: [zrxAsset],
           defaultSelectedAssetData: zrxAsset,
           affiliateInfo: {
-     feeRecipient: '0x50ff5828a216170cf224389f1c5b0301a5d0a230', // TODO: replace!
-     feePercentage: 0.001
+     feeRecipient: feeRecipient,
+     feePercentage: feePercentage
   },
       },
       'body',
@@ -77,15 +90,20 @@ function buildInputWalletComponent() {
     inputDiv.classList.add('justify-content-center');
 
     const input = document.createElement('input');
-    input.placeholder = "Ethereum wallet ... ";
     input.classList.add('form-control');
     input.classList.add('col-5');
+
+    var defaultAddress = loadAddressFromWallet();
+    if (defaultAddress === undefined)
+      input.placeholder = "Ethereum address ... ";
+    else
+      input.value = defaultAddress;
     
     const buttonDiv = document.createElement('div');
     buttonDiv.classList.add('row');
     buttonDiv.classList.add('justify-content-center');
 
-    const button = document.createElement('button');    
+    const button = document.createElement('button');
     button.textContent = "Submit";
     button.classList.add('btn');
     button.classList.add('btn-primary');
