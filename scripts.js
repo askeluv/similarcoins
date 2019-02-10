@@ -43,21 +43,36 @@ function getApiUrl() {
 }
 
 function renderZeroExInstant(tokenAddress) {
-    var feeRecipient = '0xDeaf7D87d0f6159841bD96b398eF7494d177395c';
-    var feePercentage = 0.005;
-    zrxAsset = zeroExInstant.assetDataForERC20TokenAddress(tokenAddress);
-    zeroExInstant.render(
-        {
-            orderSource: 'https://api.radarrelay.com/0x/v2/',
-            availableAssetDatas: [zrxAsset],
-            defaultSelectedAssetData: zrxAsset,
-            affiliateInfo: {
-                feeRecipient: feeRecipient,
-                feePercentage: feePercentage
+    const feeRecipient = '0xDeaf7D87d0f6159841bD96b398eF7494d177395c';
+    const feePercentage = 0.005;
+    const zrxAsset = zeroExInstant.assetDataForERC20TokenAddress(tokenAddress);
+    try {
+        zeroExInstant.render(
+            {
+                orderSource: 'https://api.radarrelay.com/0x/v2/',
+                availableAssetDatas: [zrxAsset],
+                defaultSelectedAssetData: zrxAsset,
+                affiliateInfo: {
+                    feeRecipient: feeRecipient,
+                    feePercentage: feePercentage
+                },
             },
-        },
-        'body',
-    );
+            'body',
+        );
+    } catch (err){
+        console.log(err);
+        zeroExInstant.render(
+            {
+                orderSource: 'https://api.radarrelay.com/0x/v2/',
+                availableAssetDatas: [zrxAsset],
+                affiliateInfo: {
+                    feeRecipient: feeRecipient,
+                    feePercentage: feePercentage
+                },
+            },
+            'body',
+        );
+    }
 }
 
 function buildInputWalletComponent() {
@@ -206,11 +221,11 @@ function buildRecommendationsComponent() {
         app.appendChild(rowBack)
         rowBack.appendChild(back);
 
-
         // Begin accessing JSON data here
         var data = JSON.parse(this.response);
         data.sort(compare);
-        if (request.status >= 200 && request.status < 400) {
+
+        function renderTokens(availableTokens) {
             data.forEach(coin => {
                 const row = document.createElement('tr');
 
@@ -232,32 +247,62 @@ function buildRecommendationsComponent() {
                 //scoreText.textContent = coin.rating;
                 //scoreText.textContent = scoreText.textContent + "%";
 
-                const buyButtonCell = document.createElement('td');
-                buyButtonCell.classList.add('align-middle');
-                const buyButton = document.createElement('button');
-                zrxCall = "renderZeroExInstant('" + coin.address + "');"
-                buyButton.setAttribute("onClick", zrxCall);
-                buyButton.textContent = "Buy";
-                buyButton.classList.add('btn');
-                buyButton.classList.add('btn-primary');
-                buyButton.classList.add('buy-button');
-
                 table.appendChild(row);
                 row.appendChild(iconCell);
                 iconCell.appendChild(icon);
                 row.appendChild(name);
-                //row.appendChild(score);
-                //score.appendChild(scoreText);
-                row.appendChild(buyButtonCell);
-                buyButtonCell.appendChild(buyButton);
 
+                if (availableTokens.has(coin.address)) {
+                    const buyButtonCell = document.createElement('td');
+                    buyButtonCell.classList.add('align-middle');
+                    const buyButton = document.createElement('button');
+                    zrxCall = "renderZeroExInstant('" + coin.address + "');";
+                    buyButton.setAttribute("onClick", zrxCall);
+                    buyButton.textContent = "Buy";
+                    buyButton.classList.add('btn');
+                    buyButton.classList.add('btn-primary');
+                    buyButton.classList.add('buy-button');
+
+                    row.appendChild(buyButtonCell);
+                    buyButtonCell.appendChild(buyButton);
+                }
             });
+        }
+        if (request.status >= 200 && request.status < 400) {
+            getAvailableTokensOn0x(renderTokens);
         } else {
             const errorMessage = document.createElement('marquee');
             errorMessage.textContent = `Error:`;
             app.appendChild(errorMessage);
         }
     }
+    request.send();
+}
+
+function getAvailableTokensOn0x(callback) {
+    const app = document.getElementById('appContainer');
+    const request = new XMLHttpRequest();
+    request.open('GET', 'https://api.radarrelay.com/0x/v2/asset_pairs?assetDataA=0xf47261b0000000000000000000000000c02aaa39b223fe8d0a0e5c4f27ead9083c756cc2&networkId=1&perPage=1000', true);
+    request.onload = function () {
+        let availableTokens = [];
+        if (request.status >= 200 && request.status < 400) {
+            const data = JSON.parse(request.response);
+            if (typeof data.records !== 'undefined') {
+                const records = data.records;
+                availableTokens = records.map(record => {
+                    let assetData = record.assetDataB.assetData;
+                    let tokenAddress = assetData.substring(Math.max(assetData.length - 40, 0), assetData.length);
+                    tokenAddress = '0x' + tokenAddress;
+                    return tokenAddress.toLowerCase();
+                });
+            }
+        } else {
+            const errorMessage = document.createElement('marquee');
+            errorMessage.textContent = `Error:`;
+            app.appendChild(errorMessage);
+        }
+        callback(new Set(availableTokens));
+    };
     request.send();
 }
 
