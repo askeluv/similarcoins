@@ -37,19 +37,18 @@ function setWalletAddress() {
 }
 
 function getApiUrl() {
-  var tmpWorkaround = "http://allow-any-origin.appspot.com/"
   var apiUrlBase = "https://crypto-etl-ethereum-dev.appspot.com/recommendation?num_recs=5&user_address="
   var address = getWalletAddress();
-  return tmpWorkaround + apiUrlBase + address;
+  return apiUrlBase + address;
 }
 
 function renderZeroExInstant(tokenAddress) {
-  var feeRecipient = '0x3d0fd32c24799d2ad8143402ea9b7cf86b429fd3';
+  var feeRecipient = '0xDeaf7D87d0f6159841bD96b398eF7494d177395c';
   var feePercentage = 0.005;
   zrxAsset = zeroExInstant.assetDataForERC20TokenAddress(tokenAddress);
   zeroExInstant.render(
       {
-          orderSource: 'https://api.relayer.com/sra/v2/',
+          orderSource: 'https://api.radarrelay.com/0x/v2/',
           availableAssetDatas: [zrxAsset],
           defaultSelectedAssetData: zrxAsset,
           affiliateInfo: {
