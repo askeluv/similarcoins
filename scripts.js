@@ -197,7 +197,7 @@ function buildRecommendationsComponent() {
         explanation.classList.add("text-center");
         const mediumLink = document.createElement('a');
         mediumLink.textContent = "this article.";
-        mediumLink.href = "https://medium.com/"; // TODO
+        mediumLink.href = "https://medium.com/@ASvanevik/machine-learning-on-ethereum-data-recommending-tokens-5a2a1c779849";
 
         const rowBack = document.createElement('div');
         rowBack.classList.add('row');
